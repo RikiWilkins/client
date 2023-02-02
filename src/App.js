@@ -9,10 +9,11 @@ const CLIENT_SECRET = "74d09c05be44444388a27e92691eccc4";
 
 function App() {
   const [ searchInput, setSearchInput ] = useState('');
+  const [ accessToken, setAccessToken ] = useState('');
 
   // funkce pro provedení jen při spuštění aplikace (vícekrát není potřeba)
   useEffect(() => {
-
+    // určení podmínek, které musí být splněny
     var authParameters = {
       method: 'POST',
       headers: {
@@ -20,8 +21,17 @@ function App() {
       },
       body: 'grant_type=client_credentials&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET
     }
-    fetch('https://accounts.spotify.com/api/token', )
+
+    fetch('https://accounts.spotify.com/api/token', authParameters)
+      .then(result => result.json())
+      .then(data => setAccessToken(data.access_token))
   }, [])
+
+  // Vyhledávání
+  async function search() {
+    
+  }
+
 
   return (
     <div className="App">
