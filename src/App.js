@@ -8,8 +8,8 @@ import {Routes} from 'react-router-dom';
 import { useNavigate } from '@reach/router';
 import { Router, navigate } from '@reach/router';
 import { BrowserRouter, Route } from 'react-router-dom';
-import FavAlbum from './Components/FavAlbums.js';
-//import FavAlbums from './Components/FavAlbums.js';
+//import FavAlbum from './Components/FavAlbums.js';
+import FavAlbums from './Components/FavAlbums.js';
 import { Link } from 'react-router-dom';
 
 const CLIENT_ID = "f1d4793b803e47408bb102185056dcc3";
@@ -147,38 +147,4 @@ export default function App({ navigation }) {
       </Container>
     </div>
   );
-}
-
-
-
-const FavAlbums = () => {
-  const [search, setSearchInput] = useState('');
-  const history = useNavigate();
-
-  const handleSubmit = (event) => {
-      event.preventDefault();
-      console.log(search);
-  }
-
-  return (
-      <Container>
-          <Link to="/">
-              <Button>
-                  Go Back
-              </Button>
-          </Link>
-          <InputGroup className="mb-3 input-group input-group-lg">
-              <FormControl
-                  placeholder="Search for an album"
-                  value={search}
-                  onChange={(event) => setSearchInput(event.target.value)}
-              />
-              <InputGroup.Append>
-                  <Button onClick={handleSubmit}>
-                      Search
-                  </Button>
-              </InputGroup.Append>
-          </InputGroup>
-      </Container>
-  )
 }
