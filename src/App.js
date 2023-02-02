@@ -11,6 +11,7 @@ function App() {
   const [ searchInput, setSearchInput ] = useState('');
   const [ accessToken, setAccessToken ] = useState('');
   const [ albums, setAlbums ] = useState([]);
+  const [ starred, setStarred ] = useState([]);
 
   // funkce pro provedení jen při spuštění aplikace (vícekrát není potřeba)
   useEffect(() => {
@@ -87,6 +88,22 @@ function App() {
                 <Card.Img src={album.images[0].url} />
                 <Card.Body>
                   <Card.Title>{album.name}</Card.Title>
+                  <div style={{
+                    position: 'absolute',
+                    top: '0',
+                    right: '0',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => {
+                    setStarred({...starred, [album.id]: !starred[album.id] });
+                  }}
+                  >
+                    {starred[album.id]? (
+                      <span role="img" arial-label="star">★</span>
+                    ) : (
+                      <span role="img" arial-label="star-outline">☆</span>
+                    )}
+                  </div>
                 </Card.Body>
               </Card>
             )
