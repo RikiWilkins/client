@@ -3,12 +3,23 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, InputGroup, FormControl, Button, Row, Card} from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import {BeakerIcon, ZapIcon} from '@primer/octicons-react'
+import {BeakerIcon, ZapIcon} from '@primer/octicons-react';
+import {Routes} from 'react-router-dom';
+import { useNavigate } from '@reach/router';
+import { Router, navigate } from '@reach/router';
+import { BrowserRouter, Route } from 'react-router-dom';
+import FavAlbum from './Components/FavAlbums.js';
+//import FavAlbums from './Components/FavAlbums.js';
+import { Link } from 'react-router-dom';
 
 const CLIENT_ID = "f1d4793b803e47408bb102185056dcc3";
 const CLIENT_SECRET = "74d09c05be44444388a27e92691eccc4";
 
-function App() {
+const navigateToFav = () => { 
+  navigate('/favalbums'); 
+};
+
+export default function App({ navigation }) {
   const [ searchInput, setSearchInput ] = useState('');
   const [ accessToken, setAccessToken ] = useState('');
   const [ albums, setAlbums ] = useState([]);
@@ -43,7 +54,7 @@ function App() {
   }, [starred]);  
 
   // Vyhledávání
-  async function search() {
+  async function Search() {
     // Jméno umělce
     console.log("Search for " + searchInput);  
     
@@ -68,25 +79,25 @@ function App() {
         console.log(data);
         setAlbums(data.items);
       })
-    // Zobrazení alb uživateli
+
   }
   console.log(albums);
 
   return (
     <div className="App">
       <Container>
-        <InputGroup className="mb-3" size="lg">
+        <InputGroup className="mb-3 mt-3" size="lg">
           <FormControl
             placeholder='Search for Artist'
             type="input"
             onKeyPress={event => {
               if(event.key == 'Enter'){
-                search();
+                Search();
               }
             }}
             onChange={event => setSearchInput(event.target.value)}
           />
-          <Button onClick={search}>
+          <Button onClick={Search}>
             Search
           </Button>
         </InputGroup>
@@ -125,7 +136,10 @@ function App() {
       </Container>
 
       <Container className="d-flex justify-content-end align-items-end position-fixed mb-3" style={{ bottom: "15px", right: "15px" }}>
-        <button type="button" className="btn btn-circle btn-primary mb-4 p-3">
+        <button type="button" onClick={navigateToFav} className="btn btn-circle btn-primary mb-4 p-3">
+          <Router>
+            <FavAlbums path="/favalbums" />
+          </Router>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
             <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"></path>
           </svg>
@@ -135,4 +149,36 @@ function App() {
   );
 }
 
-export default App;
+
+
+const FavAlbums = () => {
+  const [search, setSearchInput] = useState('');
+  const history = useNavigate();
+
+  const handleSubmit = (event) => {
+      event.preventDefault();
+      console.log(search);
+  }
+
+  return (
+      <Container>
+          <Link to="/">
+              <Button>
+                  Go Back
+              </Button>
+          </Link>
+          <InputGroup className="mb-3 input-group input-group-lg">
+              <FormControl
+                  placeholder="Search for an album"
+                  value={search}
+                  onChange={(event) => setSearchInput(event.target.value)}
+              />
+              <InputGroup.Append>
+                  <Button onClick={handleSubmit}>
+                      Search
+                  </Button>
+              </InputGroup.Append>
+          </InputGroup>
+      </Container>
+  )
+}
