@@ -30,7 +30,29 @@ function App() {
   // Vyhledávání
   async function search() {
     // Jméno umělce
-    console.log("Search for " + searchInput);    
+    console.log("Search for " + searchInput);  
+    
+    // Získání ID umělce
+    var searchParameters = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + accessToken
+      }
+    }
+    var artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist' , searchParameters)
+      .then(response => response.json())
+      .then(data => { return data.artists.items[0].id })
+
+    console.log("Artist ID: " + artistID);
+    
+    // Získání alb umělce
+    var albums = await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=US&limit=50', searchParameters)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+    // Zobrazení alb uživateli
   }
 
 
