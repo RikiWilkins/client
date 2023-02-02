@@ -108,7 +108,7 @@ export default function App({ navigation }) {
           {albums.map((album, i) => {
             console.log(album);
             return (
-              <Card className='m-1'>
+              <Card className='m-1 bg-light'>
                 <Card.Img className='mt-3' src={album.images[0].url} />
                 <Card.Body>
                   <Card.Title>{album.name}</Card.Title>
