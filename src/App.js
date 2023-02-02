@@ -80,12 +80,18 @@ function App() {
 
       <Container>
         <Row className="mx-2 row row-cols-4">
-          <Card>
-            <Card.Img src="#" />
-            <Card.Body>
-              <Card.Title>Album name Here</Card.Title>
-            </Card.Body>
-          </Card>
+          {albums.map((album, i) => {
+            console.log(album);
+            return (
+              <Card>
+                <Card.Img src={album.images[0].url} />
+                <Card.Body>
+                  <Card.Title>{album.name}</Card.Title>
+                </Card.Body>
+              </Card>
+            )
+          })}
+          
         </Row>
         
       </Container>
