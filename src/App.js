@@ -29,7 +29,8 @@ function App() {
 
   // Vyhledávání
   async function search() {
-    
+    // Jméno umělce
+    console.log("Search for " + searchInput);    
   }
 
 
@@ -42,12 +43,12 @@ function App() {
             type="input"
             onKeyPress={event => {
               if(event.key == 'Enter'){
-                console.log("Pressed enter")
+                search();
               }
             }}
             onChange={event => setSearchInput(event.target.value)}
           />
-          <Button onClick={() => {console.log("Clicked button")}}>
+          <Button onClick={search}>
             Search
           </Button>
         </InputGroup>
