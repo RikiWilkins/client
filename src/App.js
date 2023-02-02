@@ -10,6 +10,7 @@ const CLIENT_SECRET = "74d09c05be44444388a27e92691eccc4";
 function App() {
   const [ searchInput, setSearchInput ] = useState('');
   const [ accessToken, setAccessToken ] = useState('');
+  const [ albums, setAlbums ] = useState([]);
 
   // funkce pro provedení jen při spuštění aplikace (vícekrát není potřeba)
   useEffect(() => {
@@ -47,14 +48,15 @@ function App() {
     console.log("Artist ID: " + artistID);
     
     // Získání alb umělce
-    var albums = await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=US&limit=50', searchParameters)
+    var returnedAlbums = await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=US&limit=50', searchParameters)
       .then(response => response.json())
       .then(data => {
         console.log(data);
+        setAlbums(data.items);
       })
     // Zobrazení alb uživateli
   }
-
+  console.log(albums);
 
   return (
     <div className="App">
