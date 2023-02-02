@@ -11,7 +11,9 @@ function App() {
   const [ searchInput, setSearchInput ] = useState('');
   const [ accessToken, setAccessToken ] = useState('');
   const [ albums, setAlbums ] = useState([]);
-  const [ starred, setStarred ] = useState([]);
+  const [ starred, setStarred ] = useState(
+    JSON.parse(localStorage.getItem('starred')) || {}
+  );
 
   // funkce pro provedení jen při spuštění aplikace (vícekrát není potřeba)
   useEffect(() => {
@@ -28,6 +30,16 @@ function App() {
       .then(result => result.json())
       .then(data => setAccessToken(data.access_token))
   }, [])
+
+  // uložení stavu oblíbených alb do localStorage
+  useEffect(() => {
+    const starredFromLocalStorage = JSON.parse(localStorage.getItem('starred')) || [];
+    setStarred(starredFromLocalStorage);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('starred', JSON.stringify(starred));
+  }, [starred]);  
 
   // Vyhledávání
   async function search() {
@@ -96,8 +108,7 @@ function App() {
                   }}
                   onClick={() => {
                     setStarred({...starred, [album.id]: !starred[album.id] });
-                  }}
-                  >
+                  }}>
                     {starred[album.id]? (
                       <span role="img" arial-label="star">★</span>
                     ) : (
